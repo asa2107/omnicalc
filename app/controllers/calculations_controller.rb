@@ -12,11 +12,13 @@ class CalculationsController < ApplicationController
     space_count = @text.count(" ")
     char_count = @text.length
     no_punctuation = @text.gsub(/[.,:;"?!()]/, ' ')
-    words = @text.gsub(/[.,:;"?!()]/, ' ').split(" ")
+    temp = @text.downcase
+    words = temp.gsub(/[.,:;"?!()]/, ' ').split(" ")
     i = 0
     count = 0
+    a = @special_word.downcase
     while i<=words.size
-      if @special_word==words[i]
+      if a == words[i]
         count+=1
       end
       i+=1
@@ -41,7 +43,8 @@ class CalculationsController < ApplicationController
     @apr = params[:annual_percentage_rate].to_f
     @years = params[:number_of_years].to_i
     @principal = params[:principal_value].to_f
-
+    rate = @apr/1200
+    period = @years*12
     # ================================================================================
     # Your code goes below.
     # The annual percentage rate the user input is in the decimal @apr.
@@ -49,7 +52,7 @@ class CalculationsController < ApplicationController
     # The principal value the user input is in the decimal @principal.
     # ================================================================================
 
-    @monthly_payment = @principal*(@apr/(1-(1+@apr)**(-@years)))
+    @monthly_payment = @principal*(rate/(1-(1+rate)**(-period)))
 
     # ================================================================================
     # Your code goes above.
@@ -71,12 +74,12 @@ class CalculationsController < ApplicationController
     #   number of seconds as a result.
     # ================================================================================
 
-    @seconds = "Replace this string with your answer."
-    @minutes = "Replace this string with your answer."
-    @hours = "Replace this string with your answer."
-    @days = "Replace this string with your answer."
-    @weeks = "Replace this string with your answer."
-    @years = "Replace this string with your answer."
+    @seconds = @ending-@starting
+    @minutes = (@ending-@starting)/60
+    @hours = (@ending-@starting)/3600
+    @days = (@ending-@starting)/(3600*24)
+    @weeks = (@ending-@starting)/(3600*24*7)
+    @years = (@ending-@starting)/(3600*24*7*52)
 
     # ================================================================================
     # Your code goes above.
