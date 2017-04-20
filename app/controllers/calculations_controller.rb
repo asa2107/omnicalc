@@ -112,6 +112,18 @@ class CalculationsController < ApplicationController
         i+=1
     end
 
+    temp_mean = temp_sum/array_size
+
+    temp_num=0
+    i=0
+    while i<array_size
+        temp_num+=(a[i]-temp_mean)**2
+        i+=1
+    end
+    temp_var = temp_num/(array_size)
+
+    most_frequent_item = a.uniq.max_by{ |i| a.count( i ) }
+
     @sorted_numbers = a.sort
 
     @count = a.count
@@ -128,11 +140,11 @@ class CalculationsController < ApplicationController
 
     @mean = temp_sum/array_size
 
-    @variance = "a.var"
+    @variance = temp_var
 
-    @standard_deviation = "a.std"
+    @standard_deviation = Math.sqrt(temp_var)
 
-    @mode = "a.mode"
+    @mode = most_frequent_item
 
     # ================================================================================
     # Your code goes above.
